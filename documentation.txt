@@ -1,0 +1,27 @@
+This command is activate the virtual environment
+    pipenv shell
+
+To run the server
+    python manage.py runserver
+
+This command is to create a app or class. In the below example blog is the name of the class
+    python manage.py startapp blog
+
+To make migrations after creating a class
+    python manage.py makemigrations
+
+To migrate the changes in the created app
+    python manage.py migrate
+
+To activate python terminal 
+    python manage.py shell 
+
+To query created objects of models
+    from blog.models import BlogPost
+    obj = BlogPost.objects.get(title="abc")
+    obj.title
+
+    obj3 = BlogPost() //New object
+    obj3.title = "New blogpost";
+    obj3.save()
+
