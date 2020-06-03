@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
-
+from .forms import BlogPostForm, BlogPostModelForm
 from .models import BlogPost
 
 # def blog_post_detail_page(request, slug):
@@ -21,46 +21,74 @@ from .models import BlogPost
 #     # except ValueError:
 #     #     raise Http404
 #     template_name = 'blog_post_detail.html'
-#     context = {"object" : obj} 
+#     context = {"object" : obj}
 #     return render(request, template_name, context)
 
 
-#CRUD
+# CRUD
 
-#GET -> Retrieve / List
-#POST -> CREATE / Update/ Delete
-#Create Retrieve Update Delete
+# GET -> Retrieve / List
+# POST -> CREATE / Update/ Delete
+# Create Retrieve Update Delete
 
 def blog_post_list_view(request):
-    #List out objects
-    #Could be search
-    qs = BlogPost.objects.all() # queryset => list of python object
+    # List out objects
+    # Could be search
+    qs = BlogPost.objects.all()  # queryset => list of python object
     template_name = 'blog/list.html'
     context = {'object_list': qs}
     return render(request, template_name, context)
 
+
+# def blog_post_create_view1(request):
+#     # Create objects
+#     # Use a form
+#     form = BlogPostForm(request.POST or None)
+#     if form.is_valid():
+#         # print(form.cleaned_data)
+#         # title = form.cleaned_data['title']
+#         obj = BlogPost.objects.create(**form.cleaned_data)
+#         form = BlogPostForm()
+#     template_name = 'blog/form.html'
+#     context = {'form': form}
+#     return render(request, template_name, context)
+
+
 def blog_post_create_view(request):
     # Create objects
     # Use a form
-    template_name = 'blog/create.html'
-    context = {'form': None}
+    form = BlogPostModelForm(request.POST or None)
+    if form.is_valid():
+        # below line can be used to save directly without modifications
+        form.save()
+
+        # below way is used to modify the data before saving
+        # obj = form.save(commit=False)
+        # obj.title = form.cleaned_data.get("title")+"0"
+        # obj.save()
+
+        form = BlogPostModelForm()
+    template_name = 'blog/form.html'
+    context = {'form': form}
     return render(request, template_name, context)
 
 
 def blog_post_detail_view(request, slug):
-    obj = get_object_or_404(BlogPost, slug = slug)
+    obj = get_object_or_404(BlogPost, slug=slug)
     template_name = 'blog/detail.html'
-    context = {"object" : obj} 
+    context = {"object": obj}
     return render(request, template_name, context)
+
 
 def blog_post_update_view(request, slug):
-    obj = get_object_or_404(BlogPost, slug = slug)
+    obj = get_object_or_404(BlogPost, slug=slug)
     template_name = 'blog/detail.html'
-    context = {"object" : obj, 'form': None} 
+    context = {"object": obj, 'form': None}
     return render(request, template_name, context)
 
+
 def blog_post_delete_view(request, slug):
-    obj = get_object_or_404(BlogPost, slug = slug)
+    obj = get_object_or_404(BlogPost, slug=slug)
     template_name = 'blog/delete.html'
-    context = {"object" : obj} 
+    context = {"object": obj}
     return render(request, template_name, context)
