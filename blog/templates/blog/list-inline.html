@@ -5,6 +5,9 @@
 <div class="col col-md-6 mx-auto">
     <div class="card {% if not blog_post.published_date %} border-warning text-dark {% endif %}">
         <div class="card-body">
+            {% if blog_post.image %}
+                <img src="{{ blog_post.image.url }}" class="card-img-top"/>
+            {% endif %}
             <h5 class="card-title">{{ blog_post.title }}</h5>
             <p class="card-text">
                 <small class="text-muted">{{ blog_post.published_date }}</small>

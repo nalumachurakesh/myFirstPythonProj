@@ -9,7 +9,7 @@
 {% endif %}
 
 <!-- action="." means posting the same view method which renders this view -->
-<form method="POST" action="."> {% csrf_token %}
+<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
     <!-- <input type="text" name="full_name">
     <input type="email" name="email">
     <textarea name="content"></textarea> -->

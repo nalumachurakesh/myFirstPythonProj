@@ -68,7 +68,7 @@ def blog_post_create_view(request):
     # Use a form
     # if not request.user.is_authenticated:
     #     return render(request, "not-a-user.html",{})
-    form = BlogPostModelForm(request.POST or None)
+    form = BlogPostModelForm(request.POST or None, request.FILES or None )
     if form.is_valid():
         # below line can be used to save directly without modifications
         # form.save()
