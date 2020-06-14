@@ -7,7 +7,7 @@
         <!-- If with not used you can just write
             { include 'blog/list-inline.html' %
             in the list-inline you have to object as object is in loop        -->
-        {% include 'blog/list-inline.html' with blog_post=object %}
+        {% include 'blog/list-inline.html' with blog_post=object truncate=True detail=True %}
         
     {% endfor %}
 </div>
