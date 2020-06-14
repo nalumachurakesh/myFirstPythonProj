@@ -37,17 +37,18 @@ from .models import BlogPost
 def blog_post_list_view(request):
     # List out objects
     # Could be search
-    # now = timezone.now()
     # qs = BlogPost.objects.published()  # below line is same as this
     qs = BlogPost.objects.all().published()  # queryset => list of python object
-    # qs = BlogPost.objects.filter(published_date__lte = now) # gte = greater than and equal to
+    if request.user.is_authenticated:
+         my_qs = BlogPost.objects.filter(user=request.user)
+         qs = (qs | my_qs).distinct()
     template_name = 'blog/list.html'
     context = {'object_list': qs}
     return render(request, template_name, context)
 
 
 # def blog_post_create_view1(request):
-#     # Create objects
+#     # Create objectsf
 #     # Use a form
 #     form = BlogPostForm(request.POST or None)
 #     if form.is_valid():
