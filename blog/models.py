@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 # following will give all blogpost of the first user
@@ -15,6 +16,21 @@ from django.db import models
 
 User = settings.AUTH_USER_MODEL
 
+class BlogPostQuerySet(models.QuerySet):
+    def published(self):
+        now = timezone.now()
+        return self.filter(published_date__lte = now)
+
+
+class BlogPostManager(models.Manager):
+    def get_queryset(self):
+        return BlogPostQuerySet(self.model, using=self._db)
+
+    def published(self):
+        return self.get_queryset().published()
+
+
+
 class BlogPost(models.Model):
     # id = models.IntegerField() # pk
     # on_delete=models.CASCADE
@@ -26,6 +42,8 @@ class BlogPost(models.Model):
     published_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    objects = BlogPostManager()
 
     class Meta:
         # - To get most recent first

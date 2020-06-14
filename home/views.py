@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 
+
 from .forms import ContactForm
 from blog.models import BlogPost
 

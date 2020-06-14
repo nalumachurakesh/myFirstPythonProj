@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
+# from django.utils import timezone
 
 # Create your views here.
 from .forms import BlogPostForm, BlogPostModelForm
@@ -36,7 +37,10 @@ from .models import BlogPost
 def blog_post_list_view(request):
     # List out objects
     # Could be search
-    qs = BlogPost.objects.all()  # queryset => list of python object
+    # now = timezone.now()
+    # qs = BlogPost.objects.published()  # below line is same as this
+    qs = BlogPost.objects.all().published()  # queryset => list of python object
+    # qs = BlogPost.objects.filter(published_date__lte = now) # gte = greater than and equal to
     template_name = 'blog/list.html'
     context = {'object_list': qs}
     return render(request, template_name, context)
